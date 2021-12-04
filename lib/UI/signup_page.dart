@@ -1,8 +1,12 @@
-import 'package:ecommerce/UI/login_page.dart';
+import 'package:ecommerce/Logic/user_data.dart';
+import 'package:ecommerce/Static/toast.dart';
+import 'package:email_auth/email_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
+import 'package:http/http.dart' as http;
+import 'package:string_validator/string_validator.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -12,7 +16,33 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  final passwordController = TextEditingController();
+  final usernameController = TextEditingController();
+
+  var emailAuth = EmailAuth(sessionName: "Ecommerce App");
+
+  final userData = UserData();
+
+  bool usernameIsEmpty = false;
+  bool passwordIsEmpty = false;
+
   int index = 0;
+  bool isVisible = false;
+
+  Future<bool> sendNumberOTP() async {
+    if (isNumeric(usernameController.text)) {
+      final response = await http.get(Uri.parse(
+          'http://10.0.2.2:3000/login?phone_number=${usernameController.text}&channel=sms'));
+      return response.body == '' ? true : false;
+    }
+
+    return false;
+  }
+
+  Future<bool> sentEmailOTP() async {
+    var res = await emailAuth.sendOtp(recipientMail: usernameController.text);
+    return res ? true : false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,51 +68,48 @@ class _SignupPageState extends State<SignupPage> {
                   height: 15,
                 ),
                 const Center(
-                  child: Text("Enter your email and password and\nstart selling or buying",
+                  child: Text(
+                    "Enter your email and password and\nstart selling or buying",
                     textAlign: TextAlign.center,
                   ),
                 ),
                 const SizedBox(height: 20),
                 FlutterToggleTab(
-                  width: 88,
-                  height: 30,
-                  borderRadius: 15,
-                  selectedBackgroundColors: const [Colors.green],
-                  unSelectedBackgroundColors: const [Colors.white],
-                  selectedTextStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600),
-                  unSelectedTextStyle: const TextStyle(
-                      color: Colors.black54,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                  labels: const ["Customer", "Vendor"],
-                  selectedLabelIndex: (index) {
-                    setState(() {
-                      this.index = index;
-                      print((MediaQuery
-                          .of(context)
-                          .size
-                          .width));
-                    });
-                  },
-                  selectedIndex: index,
-                ),
+                    width: 88,
+                    height: 30,
+                    borderRadius: 15,
+                    selectedBackgroundColors: const [Colors.green],
+                    unSelectedBackgroundColors: const [Colors.white],
+                    selectedTextStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
+                    unSelectedTextStyle: const TextStyle(
+                        color: Colors.black54,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400),
+                    labels: const ["Customer", "Vendor"],
+                    selectedLabelIndex: (index) {
+                      setState(() {
+                        this.index = index;
+                      });
+                    },
+                    selectedIndex: index),
                 const SizedBox(
                   height: 25,
                 ),
-                const TextField(
+                TextField(
+                  controller: usernameController,
                   //This will obscure text dynamically
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                   textAlign: TextAlign.start,
-                  decoration: InputDecoration(
-                    hintText: "Email",
+                  decoration: const InputDecoration(
+                    hintText: "Email or Phone",
                     hintStyle: TextStyle(
                       color: Colors.black54,
                     ),
                     contentPadding:
-                    EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     filled: true,
                     fillColor: Color.fromRGBO(255, 255, 255, 1),
                     enabledBorder: OutlineInputBorder(
@@ -99,41 +126,71 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 25,
-                ),
-                const TextField(
-                  //This will obscure text dynamically
-                  style: TextStyle(color: Colors.black),
-                  textAlign: TextAlign.start,
-                  decoration: InputDecoration(
-                    hintText: "Password",
-                    hintStyle: TextStyle(
-                      color: Colors.black54,
-                    ),
-                    suffixIcon: Icon(
-                      Icons.visibility_off,
-                    ),
-                    contentPadding:
-                    EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    filled: true,
-                    fillColor: Color.fromRGBO(255, 255, 255, 1),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30.0),
-                      ),
-                      borderSide: BorderSide(color: Colors.white70),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30.0),
-                      ),
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                  ),
-                ),
+                usernameIsEmpty
+                    ? const Padding(
+                        padding: EdgeInsets.only(left: 20, top: 5),
+                        child: Text(
+                          "This field should not be empty",
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                      )
+                    : Container(),
                 const SizedBox(
                   height: 20,
+                ),
+                TextField(
+                    controller: passwordController,
+                    obscureText: isVisible,
+                    //This will obscure text dynamically
+                    style: const TextStyle(color: Colors.black),
+                    textAlign: TextAlign.start,
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                      hintStyle: const TextStyle(
+                        color: Colors.black54,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(isVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility),
+                        onPressed: () {
+                          setState(() {
+                            isVisible = isVisible ? false : true;
+                          });
+                        },
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      filled: true,
+                      fillColor: const Color.fromRGBO(255, 255, 255, 1),
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(30.0),
+                        ),
+                        borderSide: BorderSide(color: Colors.white70),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(30.0),
+                        ),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                    )),
+                passwordIsEmpty
+                    ? const Padding(
+                        padding: EdgeInsets.only(left: 20, top: 5),
+                        child: Text(
+                          "This field should not be empty",
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                      )
+                    : Container(),
+                const SizedBox(
+                  height: 15,
                 ),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -142,7 +199,27 @@ class _SignupPageState extends State<SignupPage> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      setState(() {
+                        usernameIsEmpty =
+                            usernameController.text.isEmpty ? true : false;
+                        passwordIsEmpty =
+                            passwordController.text.isEmpty ? true : false;
+                      });
+
+                      if (!usernameIsEmpty && !passwordIsEmpty) {
+                        isEmail(usernameController.text)
+                            ? await sentEmailOTP()
+                                ? Toast.ShowToast("OTP Sent")
+                                : Toast.ShowToast("Error")
+                            : await sendNumberOTP()
+                                ? Toast.ShowToast("OTP Sent")
+                                : Toast.ShowToast("Error");
+                        UserData.saveData(
+                            usernameController.text, passwordController.text);
+                        Navigator.pushNamed(context, '/auth_page');
+                      }
+                    },
                     child: const Text(
                       "Sign Up",
                       style: TextStyle(),
@@ -155,16 +232,16 @@ class _SignupPageState extends State<SignupPage> {
                   children: const [
                     Expanded(
                         child: Divider(
-                          color: Colors.black,
-                        )),
+                      color: Colors.black,
+                    )),
                     Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Text("Or continue With",
                             style: TextStyle(color: Colors.black87))),
                     Expanded(
                         child: Divider(
-                          color: Colors.black,
-                        )),
+                      color: Colors.black,
+                    )),
                   ],
                 ),
                 const SizedBox(
@@ -229,26 +306,20 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 Center(
                     child: RichText(
-                      text: TextSpan(
-                        text: 'Already have an account?',
-                        style: const TextStyle(
-                            fontSize: 15, color: Colors.black87),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: 'Sign in',
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => const LoginPage()),
-                                  );
-                                },
-                              style: const TextStyle(
-                                color: Colors.black87,
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ],
-                      ),
-                    )),
+                  text: TextSpan(
+                    text: 'Already have an account?',
+                    style: const TextStyle(fontSize: 15, color: Colors.black87),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: 'Sign in',
+                          recognizer: TapGestureRecognizer()..onTap = () {},
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ],
+                  ),
+                )),
               ],
             ),
           ),

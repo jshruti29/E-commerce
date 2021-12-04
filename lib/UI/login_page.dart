@@ -1,8 +1,12 @@
+import 'package:ecommerce/Logic/user_data.dart';
 import 'package:ecommerce/UI/signup_page.dart';
+import 'package:ecommerce/bloc/password_visibility_bloc.dart';
+import 'package:ecommerce/bloc/usertype_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -12,12 +16,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  int index = 0;
+  final passwordIcon = IconVisibility();
+  final userTypeChoose = UserTypeChoose();
+  final passwordController = TextEditingController();
+  final usernameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xFFE5E5E5),
         body: SafeArea(
           child: Padding(
@@ -41,38 +48,47 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text("Welcome back! We missed you!"),
                 ),
                 const SizedBox(height: 20),
-                FlutterToggleTab(
-                  width: 88,
-                  height: 30,
-                  borderRadius: 15,
-                  selectedBackgroundColors: const [Colors.green],
-                  unSelectedBackgroundColors: const [Colors.white],
-                  selectedTextStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600),
-                  unSelectedTextStyle: const TextStyle(
-                      color: Colors.black54,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                  labels: const ["Customer", "Vendor"],
-                  selectedLabelIndex: (index) {
-                    setState(() {
-                      this.index = index;
-                      print((MediaQuery.of(context).size.width));
-                    });
-                  },
-                  selectedIndex: index,
-                ),
+                StreamBuilder(
+                    initialData: 0,
+                    stream: userTypeChoose.userStream,
+                    builder: (context, snapshot) {
+                      return FlutterToggleTab(
+                        width: 88,
+                        height: 30,
+                        borderRadius: 15,
+                        selectedBackgroundColors: const [Colors.green],
+                        unSelectedBackgroundColors: const [Colors.white],
+                        selectedTextStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600),
+                        unSelectedTextStyle: const TextStyle(
+                            color: Colors.black54,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                        labels: const ["Customer", "Vendor"],
+                        selectedLabelIndex: (index) {
+                          setState(() {
+                            print(snapshot.data);
+                          });
+                          index == 0
+                              ? userTypeChoose.eventSink
+                                  .add(UserAction.customer)
+                              : userTypeChoose.eventSink.add(UserAction.vendor);
+                        },
+                        selectedIndex: snapshot.data as int,
+                      );
+                    }),
                 const SizedBox(
                   height: 25,
                 ),
-                const TextField(
+                TextField(
+                  controller: usernameController,
                   //This will obscure text dynamically
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                   textAlign: TextAlign.start,
-                  decoration: InputDecoration(
-                    hintText: "Email",
+                  decoration: const InputDecoration(
+                    hintText: "Email or Phone",
                     hintStyle: TextStyle(
                       color: Colors.black54,
                     ),
@@ -97,36 +113,51 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 25,
                 ),
-                const TextField(
-                  //This will obscure text dynamically
-                  style: TextStyle(color: Colors.black),
-                  textAlign: TextAlign.start,
-                  decoration: InputDecoration(
-                    hintText: "Password",
-                    hintStyle: TextStyle(
-                      color: Colors.black54,
-                    ),
-                    suffixIcon: Icon(
-                      Icons.visibility_off,
-                    ),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    filled: true,
-                    fillColor: Color.fromRGBO(255, 255, 255, 1),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30.0),
-                      ),
-                      borderSide: BorderSide(color: Colors.white70),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30.0),
-                      ),
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                  ),
-                ),
+                StreamBuilder(
+                    stream: passwordIcon.userStream,
+                    initialData: true,
+                    builder: (context, snapshot) {
+                      return TextField(
+                          controller: passwordController,
+                          obscureText: snapshot.data as bool,
+                          //This will obscure text dynamically
+                          style: const TextStyle(color: Colors.black),
+                          textAlign: TextAlign.start,
+                          decoration: InputDecoration(
+                            hintText: "Password",
+                            hintStyle: const TextStyle(
+                              color: Colors.black54,
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(snapshot.data as bool
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
+                              onPressed: () {
+                                snapshot.data as bool
+                                    ? passwordIcon.eventSink
+                                        .add(ContainVisibility.hide)
+                                    : passwordIcon.eventSink
+                                        .add(ContainVisibility.show);
+                              },
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            filled: true,
+                            fillColor: const Color.fromRGBO(255, 255, 255, 1),
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(30.0),
+                              ),
+                              borderSide: BorderSide(color: Colors.white70),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(30.0),
+                              ),
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                          ));
+                    }),
                 const SizedBox(
                   height: 10,
                 ),
@@ -249,9 +280,7 @@ class _LoginPageState extends State<LoginPage> {
                           text: 'Sign Up',
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => const SignupPage()),
-                              );
+                              Navigator.pushNamed(context, '/sign_up_page');
                             },
                           style: const TextStyle(
                             color: Colors.black87,
