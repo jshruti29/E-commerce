@@ -12,8 +12,10 @@ void main() {
   runApp(const MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
 
   // This widget is the root of your application.
   @override
@@ -32,14 +34,14 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/sign_up_page',
+      initialRoute: '/one_landing_page',
       routes: {
-        '/one_landing_page': (context) => const One_LandingPage(),
-        '/two_landing_page': (context) => const Two_LandingPage(),
-        '/three_landing_page': (context) => const Three_LandingPage(),
+        '/one_landing_page': (context) => One_LandingPage(),
+        '/two_landing_page': (context) =>Two_LandingPage(),
+        '/three_landing_page': (context) => Three_LandingPage(),
         '/login_page': (context) => const LoginPage(),
         '/sign_up_page': (context) => const SignupPage(),
-        '/auth_page': (context) => AuthPage(),
+        '/auth_page': (context) => const AuthPage(),
         '/home_page': (context) => Home_Page(),
       },
     );

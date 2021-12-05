@@ -29,20 +29,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_toggle_tab:
   flutter_bloc: ^8.0.0
   http:
   email_auth: ^1.0.0
   fluttertoast: ^8.0.8
   string_validator: ^0.3.0
-  flutter_svg:
   carousel_slider: ^4.0.0
-  flutter_custom_clippers: ^2.0.0
-
-
-
-
-
+  page_transition: ^2.0.4
 
 
   # The following adds the Cupertino Icons font to your application.

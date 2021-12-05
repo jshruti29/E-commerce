@@ -1,12 +1,8 @@
-import 'package:ecommerce/Logic/user_data.dart';
-import 'package:ecommerce/UI/signup_page.dart';
 import 'package:ecommerce/bloc/password_visibility_bloc.dart';
 import 'package:ecommerce/bloc/usertype_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
-import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -20,6 +16,14 @@ class _LoginPageState extends State<LoginPage> {
   final userTypeChoose = UserTypeChoose();
   final passwordController = TextEditingController();
   final usernameController = TextEditingController();
+
+  bool isObscure = true;
+
+  Color colorCustomer = Colors.green;
+  Color colorVendor = Colors.white;
+
+  bool isCustomerSelected = true;
+  bool isVendorSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -48,37 +52,76 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text("Welcome back! We missed you!"),
                 ),
                 const SizedBox(height: 20),
-                StreamBuilder(
-                    initialData: 0,
-                    stream: userTypeChoose.userStream,
-                    builder: (context, snapshot) {
-                      return FlutterToggleTab(
-                        width: 88,
-                        height: 30,
-                        borderRadius: 15,
-                        selectedBackgroundColors: const [Colors.green],
-                        unSelectedBackgroundColors: const [Colors.white],
-                        selectedTextStyle: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600),
-                        unSelectedTextStyle: const TextStyle(
-                            color: Colors.black54,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400),
-                        labels: const ["Customer", "Vendor"],
-                        selectedLabelIndex: (index) {
-                          setState(() {
-                            print(snapshot.data);
-                          });
-                          index == 0
-                              ? userTypeChoose.eventSink
-                                  .add(UserAction.customer)
-                              : userTypeChoose.eventSink.add(UserAction.vendor);
-                        },
-                        selectedIndex: snapshot.data as int,
-                      );
-                    }),
+                Container(
+                  height: 35,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Colors.white),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              splashFactory: NoSplash.splashFactory,
+                              elevation: 0,
+                              primary: colorCustomer,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                colorVendor = Colors.white;
+                                colorCustomer = Colors.green;
+                                isVendorSelected = false;
+                                isCustomerSelected = true;
+                              });
+                            },
+                            child: Text(
+                              "Customer",
+                              style: isCustomerSelected
+                                  ? const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                    )
+                                  : const TextStyle(
+                                      color: Colors.black,
+                                    ),
+                            )),
+                      ),
+                      Expanded(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                splashFactory: NoSplash.splashFactory,
+                                elevation: 0,
+                                primary: colorVendor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  colorCustomer = Colors.white;
+                                  colorVendor = Colors.green;
+                                  isVendorSelected = true;
+                                  isCustomerSelected = false;
+                                });
+                              },
+                              child: Text(
+                                "Vendor",
+                                style: isVendorSelected
+                                    ? const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17,
+                                      )
+                                    : const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                              ))),
+                    ],
+                  ),
+                ),
                 const SizedBox(
                   height: 25,
                 ),
@@ -113,51 +156,44 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 25,
                 ),
-                StreamBuilder(
-                    stream: passwordIcon.userStream,
-                    initialData: true,
-                    builder: (context, snapshot) {
-                      return TextField(
-                          controller: passwordController,
-                          obscureText: snapshot.data as bool,
-                          //This will obscure text dynamically
-                          style: const TextStyle(color: Colors.black),
-                          textAlign: TextAlign.start,
-                          decoration: InputDecoration(
-                            hintText: "Password",
-                            hintStyle: const TextStyle(
-                              color: Colors.black54,
-                            ),
-                            suffixIcon: IconButton(
-                              icon: Icon(snapshot.data as bool
-                                  ? Icons.visibility_off
-                                  : Icons.visibility),
-                              onPressed: () {
-                                snapshot.data as bool
-                                    ? passwordIcon.eventSink
-                                        .add(ContainVisibility.hide)
-                                    : passwordIcon.eventSink
-                                        .add(ContainVisibility.show);
-                              },
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            filled: true,
-                            fillColor: const Color.fromRGBO(255, 255, 255, 1),
-                            enabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(30.0),
-                              ),
-                              borderSide: BorderSide(color: Colors.white70),
-                            ),
-                            focusedBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(30.0),
-                              ),
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                          ));
-                    }),
+                TextField(
+                    controller: passwordController,
+                    obscureText: isObscure,
+                    //This will obscure text dynamically
+                    style: const TextStyle(color: Colors.black),
+                    textAlign: TextAlign.start,
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                      hintStyle: const TextStyle(
+                        color: Colors.black54,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(isObscure
+                            ? Icons.visibility_off
+                            : Icons.visibility),
+                        onPressed: () {
+                          setState(() {
+                            isObscure = isObscure ? false : true;
+                          });
+                        },
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      filled: true,
+                      fillColor: const Color.fromRGBO(255, 255, 255, 1),
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(30.0),
+                        ),
+                        borderSide: BorderSide(color: Colors.white70),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(30.0),
+                        ),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                    )),
                 const SizedBox(
                   height: 10,
                 ),

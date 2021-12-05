@@ -4,7 +4,6 @@ import 'package:email_auth/email_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:http/http.dart' as http;
 import 'package:string_validator/string_validator.dart';
 
@@ -19,7 +18,7 @@ class _SignupPageState extends State<SignupPage> {
   final passwordController = TextEditingController();
   final usernameController = TextEditingController();
 
-  var emailAuth = EmailAuth(sessionName: "Ecommerce App");
+  var emailAuth = EmailAuth(sessionName: "E-commerce App");
 
   final userData = UserData();
 
@@ -27,7 +26,13 @@ class _SignupPageState extends State<SignupPage> {
   bool passwordIsEmpty = false;
 
   int index = 0;
-  bool isVisible = false;
+  bool isObscure = true;
+
+  Color colorCustomer = Colors.green;
+  Color colorVendor = Colors.white;
+
+  bool isCustomerSelected = true;
+  bool isVendorSelected = false;
 
   Future<bool> sendNumberOTP() async {
     if (isNumeric(usernameController.text)) {
@@ -74,27 +79,76 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                FlutterToggleTab(
-                    width: 88,
-                    height: 30,
-                    borderRadius: 15,
-                    selectedBackgroundColors: const [Colors.green],
-                    unSelectedBackgroundColors: const [Colors.white],
-                    selectedTextStyle: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600),
-                    unSelectedTextStyle: const TextStyle(
-                        color: Colors.black54,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400),
-                    labels: const ["Customer", "Vendor"],
-                    selectedLabelIndex: (index) {
-                      setState(() {
-                        this.index = index;
-                      });
-                    },
-                    selectedIndex: index),
+                Container(
+                  height: 35,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Colors.white),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              splashFactory: NoSplash.splashFactory,
+                              elevation: 0,
+                              primary: colorCustomer,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                colorVendor = Colors.white;
+                                colorCustomer = Colors.green;
+                                isVendorSelected = false;
+                                isCustomerSelected = true;
+                              });
+                            },
+                            child: Text(
+                              "Customer",
+                              style: isCustomerSelected
+                                  ? const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                    )
+                                  : const TextStyle(
+                                      color: Colors.black,
+                                    ),
+                            )),
+                      ),
+                      Expanded(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                splashFactory: NoSplash.splashFactory,
+                                elevation: 0,
+                                primary: colorVendor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  colorCustomer = Colors.white;
+                                  colorVendor = Colors.green;
+                                  isVendorSelected = true;
+                                  isCustomerSelected = false;
+                                });
+                              },
+                              child: Text(
+                                "Vendor",
+                                style: isVendorSelected
+                                    ? const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17,
+                                      )
+                                    : const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                              ))),
+                    ],
+                  ),
+                ),
                 const SizedBox(
                   height: 25,
                 ),
@@ -142,7 +196,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 TextField(
                     controller: passwordController,
-                    obscureText: isVisible,
+                    obscureText: isObscure,
                     //This will obscure text dynamically
                     style: const TextStyle(color: Colors.black),
                     textAlign: TextAlign.start,
@@ -152,12 +206,12 @@ class _SignupPageState extends State<SignupPage> {
                         color: Colors.black54,
                       ),
                       suffixIcon: IconButton(
-                        icon: Icon(isVisible
+                        icon: Icon(isObscure
                             ? Icons.visibility_off
                             : Icons.visibility),
                         onPressed: () {
                           setState(() {
-                            isVisible = isVisible ? false : true;
+                            isObscure = isObscure ? false : true;
                           });
                         },
                       ),
