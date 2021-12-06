@@ -5,6 +5,8 @@ import 'package:page_transition/page_transition.dart';
 
 // ignore: camel_case_types
 class Two_LandingPage extends StatelessWidget {
+  const Two_LandingPage({Key? key}) : super(key: key);
+
   @override
   // TODO: implement build
   Widget build(BuildContext context) {

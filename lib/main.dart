@@ -7,11 +7,11 @@ import 'package:ecommerce/UI/signup_page.dart';
 import 'package:flutter/material.dart';
 
 import 'UI/LandingUI/three_landing_page.dart';
+import 'UI/product_page.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/one_landing_page',
+      initialRoute: '/home_page',
       routes: {
         '/one_landing_page': (context) => One_LandingPage(),
         '/two_landing_page': (context) =>Two_LandingPage(),
@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/sign_up_page': (context) => const SignupPage(),
         '/auth_page': (context) => const AuthPage(),
         '/home_page': (context) => Home_Page(),
+        '/product_page': (context) => const Product_Page(),
       },
     );
   }

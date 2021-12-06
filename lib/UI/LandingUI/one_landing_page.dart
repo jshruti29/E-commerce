@@ -28,6 +28,8 @@ import 'package:page_transition/page_transition.dart';
 
 // ignore: camel_case_types
 class One_LandingPage extends StatelessWidget {
+  const One_LandingPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

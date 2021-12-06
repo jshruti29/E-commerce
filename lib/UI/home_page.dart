@@ -71,7 +71,7 @@ class _Home_PageState extends State<Home_Page> {
               Container(
                 height: 90,
                 width: MediaQuery.of(context).size.width,
-                color: Color(0xFFEDEDED),
+                color: const Color(0xFFEDEDED),
                 child: ListTile(
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +132,9 @@ class _Home_PageState extends State<Home_Page> {
                         height: 5,
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, "/product_page");
+                        },
                         child: Container(
                             height: 30,
                             width: 30,
@@ -140,7 +142,7 @@ class _Home_PageState extends State<Home_Page> {
                               borderRadius: BorderRadius.circular(100.0),
                               color: Colors.black12,
                             ),
-                            child: Icon(Icons.arrow_forward)),
+                            child: const Icon(Icons.arrow_forward)),
                       ),
                     ],
                   ),
@@ -314,8 +316,7 @@ class _Home_PageState extends State<Home_Page> {
                 ),
                 trailing: Text(
                   "SEE ALL",
-                  style: TextStyle(fontSize: 18,
-                  fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
               CarouselSlider(
@@ -386,7 +387,9 @@ class _Home_PageState extends State<Home_Page> {
                 ),
               ),
               cardStructure(),
-              SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               cardStructure(),
               const SizedBox(
                 height: 10,

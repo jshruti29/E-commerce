@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 // ignore: camel_case_types
 class Three_LandingPage extends StatelessWidget {
+  const Three_LandingPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -67,6 +69,7 @@ class Three_LandingPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
+                    Navigator.of(context).pop(); // Pop to prevent back
                     // Navigate to sign in
                     Navigator.pushNamed(context, "/login_page");
                   },
