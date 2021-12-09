@@ -1,13 +1,19 @@
-import 'package:ecommerce/UI/LandingUI/one_landing_page.dart';
-import 'package:ecommerce/UI/LandingUI/two_landing_page.dart';
-import 'package:ecommerce/UI/auth_page.dart';
-import 'package:ecommerce/UI/home_page.dart';
-import 'package:ecommerce/UI/login_page.dart';
-import 'package:ecommerce/UI/signup_page.dart';
 import 'package:flutter/material.dart';
-
-import 'UI/LandingUI/three_landing_page.dart';
-import 'UI/product_page.dart';
+import 'UI/CustomerUI/LandingUI_Customer/one_customer_landing_page.dart';
+import 'UI/CustomerUI/LandingUI_Customer/three_customer_landing_page.dart';
+import 'UI/CustomerUI/LandingUI_Customer/two_customer_landing_page.dart';
+import 'UI/CustomerUI/chat_page.dart';
+import 'UI/CustomerUI/home_page.dart';
+import 'UI/CustomerUI/product_page.dart';
+import 'UI/CustomerUI/search_page.dart';
+import 'UI/CustomerUI/setting_page.dart';
+import 'UI/VendorUI/LandingUI_Vendor/one_vendor_landing_page.dart';
+import 'UI/VendorUI/LandingUI_Vendor/two_vendor_landing_page.dart';
+import 'UI/VendorUI/bottom_navigation.dart';
+import 'UI/VendorUI/home_page_vendor.dart';
+import 'UI/auth_page.dart';
+import 'UI/login_page.dart';
+import 'UI/signup_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +21,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
 
   // This widget is the root of your application.
   @override
@@ -34,16 +39,24 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/home_page',
+      initialRoute: '/vendor_home_controller',
       routes: {
-        '/one_landing_page': (context) => One_LandingPage(),
-        '/two_landing_page': (context) =>Two_LandingPage(),
-        '/three_landing_page': (context) => Three_LandingPage(),
+        '/one_vendor_landing_page': (context) => const One_Vendor_LandingPage(),
+        '/two_vendor_landing_page': (context) => const Two_Vendor_LandingPage(),
+        '/one_customer_landing_page': (context) => const One_Customer_LandingPage(),
+        '/two_customer_landing_page': (context) => const Two_Customer_LandingPage(),
+        '/three_customer_landing_page': (context) => const Three_Customer_LandingPage(),
         '/login_page': (context) => const LoginPage(),
         '/sign_up_page': (context) => const SignupPage(),
         '/auth_page': (context) => const AuthPage(),
         '/home_page': (context) => Home_Page(),
+        '/home_page_vendor': (context) => const Home_Page_Vendor(),
         '/product_page': (context) => const Product_Page(),
+        '/chat_page': (context) => const Chat_Page(),
+        '/search_page': (context) => const Search_Page(),
+        '/setting_page': (context) => const Setting_Page(),
+        '/vendor_home_controller': (context) => const BottomNavigation(),
+
       },
     );
   }

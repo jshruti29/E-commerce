@@ -202,14 +202,18 @@ class _Home_PageState extends State<Home_Page> {
               Icons.search,
               color: Color(0xFF77DD77),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, "/search_page");
+            },
           ),
           IconButton(
             icon: const Icon(
               Icons.settings,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, "/setting_page");
+            },
           ),
         ],
       ),

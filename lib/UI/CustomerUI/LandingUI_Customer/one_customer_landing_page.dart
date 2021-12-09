@@ -1,37 +1,26 @@
-import 'package:ecommerce/UI/LandingUI/three_landing_page.dart';
+import 'package:ecommerce/UI/CustomerUI/LandingUI_Customer/three_customer_landing_page.dart';
+import 'package:ecommerce/UI/CustomerUI/LandingUI_Customer/two_customer_landing_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
 // ignore: camel_case_types
-class Two_LandingPage extends StatelessWidget {
-  const Two_LandingPage({Key? key}) : super(key: key);
+class One_Customer_LandingPage extends StatelessWidget {
+  const One_Customer_LandingPage({Key? key}) : super(key: key);
 
   @override
-  // TODO: implement build
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xFF6964E5),
+        backgroundColor: const Color(0xFFF1B255),
         appBar: AppBar(
           automaticallyImplyLeading: false,
           elevation: 0,
           centerTitle: true,
-          backgroundColor: const Color(0xFF6964E5),
+          backgroundColor: const Color(0xFFF1B255),
           title: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: 15,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: Colors.white60,
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-              ),
-              const SizedBox(
-                width: 3,
-              ),
               Container(
                 width: 30,
                 height: 10,
@@ -40,11 +29,22 @@ class Two_LandingPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5.0),
                 ),
               ),
+              const SizedBox(
+                width: 3,
+              ),
+              Container(
+                width: 15,
+                height: 10,
+                decoration: BoxDecoration(
+                  color: Colors.white60,
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+              ),
             ],
           ),
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 15),
+              padding: EdgeInsets.only(right: 15),
               child: Align(
                 alignment: Alignment.center,
                 child: GestureDetector(
@@ -53,7 +53,7 @@ class Two_LandingPage extends StatelessWidget {
                         context,
                         PageTransition(
                           type: PageTransitionType.rightToLeft,
-                          child: Three_LandingPage(),
+                          child: Three_Customer_LandingPage(),
                         ));
                   },
                   child: const Text(
@@ -83,7 +83,7 @@ class Two_LandingPage extends StatelessWidget {
                 height: 20,
               ),
               const Text(
-                "Serch for the perfect DJ",
+                "Look for Venues",
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -93,7 +93,7 @@ class Two_LandingPage extends StatelessWidget {
                 height: 20,
               ),
               const Text(
-                "Hundreds of DJ’s to choose from with different categories that fits perfectly for the ocassion you want.",
+                "We have curated ready-made venues ready for customisation at the tip of your fingers.",
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
@@ -109,12 +109,11 @@ class Two_LandingPage extends StatelessWidget {
                   ),
                   child: IconButton(
                       onPressed: () {
-                        // navigate to second_landing
                         Navigator.push(
                           context,
                           PageTransition(
                             type: PageTransitionType.rightToLeft,
-                            child: Three_LandingPage(),
+                            child: Two_Customer_LandingPage(),
                           ),
                         );
                       },

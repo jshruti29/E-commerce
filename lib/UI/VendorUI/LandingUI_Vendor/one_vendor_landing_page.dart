@@ -1,34 +1,12 @@
-/*
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
-// ignore: camel_case_types
-class One_LandingPage extends StatefulWidget {
-  const One_LandingPage({Key? key}) : super(key: key);
-
-  @override
-  _One_LandingPageState createState() => _One_LandingPageState();
-}
-
-// ignore: camel_case_types
-class _One_LandingPageState extends State<One_LandingPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: const Color(0xFFF1B255), body: Container());
-  }
-}
-*/
-
-import 'package:ecommerce/UI/LandingUI/three_landing_page.dart';
-import 'package:ecommerce/UI/LandingUI/two_landing_page.dart';
+import 'package:ecommerce/UI/VendorUI/LandingUI_Vendor/three_vendor_landing_page.dart';
+import 'package:ecommerce/UI/VendorUI/LandingUI_Vendor/two_vendor_landing_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
 // ignore: camel_case_types
-class One_LandingPage extends StatelessWidget {
-  const One_LandingPage({Key? key}) : super(key: key);
+class One_Vendor_LandingPage extends StatelessWidget {
+  const One_Vendor_LandingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +44,7 @@ class One_LandingPage extends StatelessWidget {
           ),
           actions: [
             Padding(
-              padding: EdgeInsets.only(right: 15),
+              padding: const EdgeInsets.only(right: 15),
               child: Align(
                 alignment: Alignment.center,
                 child: GestureDetector(
@@ -75,7 +53,7 @@ class One_LandingPage extends StatelessWidget {
                         context,
                         PageTransition(
                           type: PageTransitionType.rightToLeft,
-                          child: Three_LandingPage(),
+                          child: const Three_Vendor_LandingPage(),
                         ));
                   },
                   child: const Text(
@@ -98,14 +76,14 @@ class One_LandingPage extends StatelessWidget {
             children: [
               Center(
                 child: Image.asset(
-                  "assets/images/Asset11.png",
+                  "assets/images/image24.png",
                 ),
               ),
               const SizedBox(
                 height: 20,
               ),
               const Text(
-                "Look for Venues",
+                "Manage your business",
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -115,7 +93,7 @@ class One_LandingPage extends StatelessWidget {
                 height: 20,
               ),
               const Text(
-                "We have curated ready-made venues ready for customisation at the tip of your fingers.",
+                "Easily manage your business",
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
@@ -135,7 +113,7 @@ class One_LandingPage extends StatelessWidget {
                           context,
                           PageTransition(
                             type: PageTransitionType.rightToLeft,
-                            child: Two_LandingPage(),
+                            child: const Two_Vendor_LandingPage(),
                           ),
                         );
                       },

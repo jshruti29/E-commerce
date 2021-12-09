@@ -97,7 +97,9 @@ class _Product_PageState extends State<Product_Page> {
                                   Icons.message_outlined,
                                   color: Colors.white,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pushNamed(context, "/chat_page");
+                                },
                               )),
                         ),
                         Container(

@@ -14,3 +14,8 @@ class UserData {
     });
   }
 }
+
+class Logic {
+  static List<Map> data = []; // save chat data temp
+}
+

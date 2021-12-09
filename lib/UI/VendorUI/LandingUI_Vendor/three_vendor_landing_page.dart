@@ -1,13 +1,13 @@
+// ignore: camel_case_types
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // ignore: camel_case_types
-class Three_LandingPage extends StatelessWidget {
-  const Three_LandingPage({Key? key}) : super(key: key);
+class Three_Vendor_LandingPage extends StatelessWidget {
+  const Three_Vendor_LandingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         backgroundColor: const Color(0xFFFF6961),
         body: SafeArea(
@@ -26,7 +26,7 @@ class Three_LandingPage extends StatelessWidget {
                   height: 20,
                 ),
                 const Text(
-                  "Let’s Start",
+                  "Engage with Customers",
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -36,7 +36,7 @@ class Three_LandingPage extends StatelessWidget {
                   height: 20,
                 ),
                 const Text(
-                  "Welcome to Vendors",
+                  "Post offers and Discounts and respond to inbound calls",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
@@ -52,7 +52,7 @@ class Three_LandingPage extends StatelessWidget {
                           Navigator.pushNamed(context, "/sign_up_page");
                         },
                         child: const Text(
-                          "I am new here",
+                          "Sign Up",
                           style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         style: ElevatedButton.styleFrom(
@@ -86,5 +86,6 @@ class Three_LandingPage extends StatelessWidget {
             ),
           ),
         ));
+
   }
 }

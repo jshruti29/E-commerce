@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:ecommerce/Logic/user_data.dart';
 import 'package:ecommerce/Static/toast.dart';
-import 'package:ecommerce/UI/signup_page.dart';
 import 'package:email_auth/email_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
