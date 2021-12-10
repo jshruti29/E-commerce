@@ -1,5 +1,5 @@
 
-import 'package:ecommerce/UI/VendorUI/LandingUI_Vendor/vendor_message.dart';
+import 'vendor_message.dart';
 import 'package:ecommerce/UI/VendorUI/market_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,20 +47,20 @@ class _BottomNavigationState extends State<BottomNavigation> {
         // This is all you need!
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.mail_outline),
             label: 'Message',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
+            icon: Icon(Icons.store_mall_directory_outlined),
             label: 'Market',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
+            icon: Icon(Icons.account_circle_outlined),
             label: 'Profile',
           ),
         ],
         currentIndex: _bottomNavIndex,
-        selectedItemColor: Colors.deepOrangeAccent,
+        selectedItemColor: Colors.green,
         onTap: _onItemTapped,
       ),
     );

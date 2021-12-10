@@ -1,3 +1,6 @@
+import 'package:ecommerce/UI/VendorUI/photo_page.dart';
+import 'package:ecommerce/UI/VendorUI/reviews_page.dart';
+import 'package:ecommerce/UI/VendorUI/vendor_message.dart';
 import 'package:flutter/material.dart';
 import 'UI/CustomerUI/LandingUI_Customer/one_customer_landing_page.dart';
 import 'UI/CustomerUI/LandingUI_Customer/three_customer_landing_page.dart';
@@ -39,13 +42,16 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/vendor_home_controller',
+      initialRoute: '/vendor_reviews_page',
       routes: {
         '/one_vendor_landing_page': (context) => const One_Vendor_LandingPage(),
         '/two_vendor_landing_page': (context) => const Two_Vendor_LandingPage(),
-        '/one_customer_landing_page': (context) => const One_Customer_LandingPage(),
-        '/two_customer_landing_page': (context) => const Two_Customer_LandingPage(),
-        '/three_customer_landing_page': (context) => const Three_Customer_LandingPage(),
+        '/one_customer_landing_page': (context) =>
+            const One_Customer_LandingPage(),
+        '/two_customer_landing_page': (context) =>
+            const Two_Customer_LandingPage(),
+        '/three_customer_landing_page': (context) =>
+            const Three_Customer_LandingPage(),
         '/login_page': (context) => const LoginPage(),
         '/sign_up_page': (context) => const SignupPage(),
         '/auth_page': (context) => const AuthPage(),
@@ -56,7 +62,9 @@ class MyApp extends StatelessWidget {
         '/search_page': (context) => const Search_Page(),
         '/setting_page': (context) => const Setting_Page(),
         '/vendor_home_controller': (context) => const BottomNavigation(),
-
+        '/vendor_photo_page': (context) => const Photo_Page(),
+        '/vendor_message_page': (context) => const Vendor_message_page(),
+        '/vendor_reviews_page': (context) => const Reviews_Page(),
       },
     );
   }
