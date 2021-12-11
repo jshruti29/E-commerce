@@ -12,23 +12,24 @@ class Home_Page_Vendor extends StatefulWidget {
 // ignore: camel_case_types
 class _Home_Page_VendorState extends State<Home_Page_Vendor> {
   Widget Tile(String imageSource, String title, String pageToRoute) {
-    return Container(
-      color: Colors.white,
-      child: ListTile(
-        leading: Image.asset(
-          imageSource,
-          height: 30,
-          width: 30,
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, pageToRoute);
+      },
+      child: Container(
+        color: Colors.white,
+        child: ListTile(
+          leading: Image.asset(
+            imageSource,
+            height: 30,
+            width: 30,
+          ),
+          title: Text(title),
+          trailing: const Icon(
+            Icons.keyboard_arrow_right,
+            color: Colors.black87,
+          ),
         ),
-        title: Text(title),
-        trailing: GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, pageToRoute);
-            },
-            child: const Icon(
-              Icons.keyboard_arrow_right,
-              color: Colors.black87,
-            )),
       ),
     );
   }
@@ -110,9 +111,10 @@ class _Home_Page_VendorState extends State<Home_Page_Vendor> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Heading("ENGAGEMENT"),
-            Tile("assets/icon/review.png", "Review", ""),
-            Tile("assets/icon/picture.png", "Product", ""),
-            Tile("assets/icon/activity-feed.png", "Message", ""),
+            Tile("assets/icon/review.png", "Review", "/vendor_reviews_page"),
+            Tile("assets/icon/picture.png", "Product", "/vendor_photo_page"),
+            Tile("assets/icon/activity-feed.png", "Message",
+                "/vendor_message_page"),
             Heading("DEALS & DISCOUNT"),
             Tile("assets/icon/sale.png", "Promos", ""),
             Tile("assets/icon/events.png", "Events", ""),

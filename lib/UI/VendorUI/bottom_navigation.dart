@@ -1,4 +1,6 @@
 
+import 'package:ecommerce/UI/camera_page.dart';
+
 import 'vendor_message.dart';
 import 'package:ecommerce/UI/VendorUI/market_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,11 +30,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
   Widget? pageCaller(int index) {
     switch (index) {
       case 0:
-        return Vendor_message_page();
+        return const Vendor_message_page();
       case 1:
-        return Market_Page();
+        return const Camera_Page();
       case 2:
-        return Home_Page_Vendor();
+        return const Home_Page_Vendor();
     }
   }
 

@@ -15,6 +15,7 @@ import 'UI/VendorUI/LandingUI_Vendor/two_vendor_landing_page.dart';
 import 'UI/VendorUI/bottom_navigation.dart';
 import 'UI/VendorUI/home_page_vendor.dart';
 import 'UI/auth_page.dart';
+import 'UI/camera_page.dart';
 import 'UI/login_page.dart';
 import 'UI/signup_page.dart';
 
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/vendor_reviews_page',
+      initialRoute: '/one_vendor_landing_page',
       routes: {
         '/one_vendor_landing_page': (context) => const One_Vendor_LandingPage(),
         '/two_vendor_landing_page': (context) => const Two_Vendor_LandingPage(),
@@ -65,6 +66,8 @@ class MyApp extends StatelessWidget {
         '/vendor_photo_page': (context) => const Photo_Page(),
         '/vendor_message_page': (context) => const Vendor_message_page(),
         '/vendor_reviews_page': (context) => const Reviews_Page(),
+        '/vendor_camera_page': (context) => const Camera_Page(),
+        '/vendor_home_page': (context) => const Home_Page_Vendor(),
       },
     );
   }

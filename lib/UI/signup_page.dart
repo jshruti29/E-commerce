@@ -1,5 +1,6 @@
 import 'package:ecommerce/Logic/user_data.dart';
 import 'package:ecommerce/Static/toast.dart';
+import 'package:ecommerce/Static/user_type.dart';
 import 'package:email_auth/email_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -102,6 +103,7 @@ class _SignupPageState extends State<SignupPage> {
                                 colorCustomer = Colors.green;
                                 isVendorSelected = false;
                                 isCustomerSelected = true;
+                                UserType.isUserCustomer = true;
                               });
                             },
                             child: Text(
@@ -132,6 +134,7 @@ class _SignupPageState extends State<SignupPage> {
                                   colorVendor = Colors.green;
                                   isVendorSelected = true;
                                   isCustomerSelected = false;
+                                  UserType.isUserCustomer = false;
                                 });
                               },
                               child: Text(

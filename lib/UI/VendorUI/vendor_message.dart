@@ -15,12 +15,14 @@ class _Vendor_message_pageState extends State<Vendor_message_page> {
   Widget messageUI(String imageURL){
     return  Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Ink(
+      child: Container(
         color: Colors.black12,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 15),
           child: ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, "/chat_page");
+            },
             leading: Image.asset(imageURL),
             title: Padding(
               padding: const EdgeInsets.only(left: 10),

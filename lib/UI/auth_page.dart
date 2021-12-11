@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ecommerce/Logic/user_data.dart';
 import 'package:ecommerce/Static/toast.dart';
+import 'package:ecommerce/Static/user_type.dart';
 import 'package:email_auth/email_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -75,10 +76,16 @@ class _AuthPageState extends State<AuthPage> {
                 onPressed: () async {
                   isEmail(UserData.username!)
                       ? await verifyEmailOTP()
-                          ? Navigator.pushNamed(context, '/home_page')
+                          ? UserType.isUserCustomer
+                              ? Navigator.pushNamed(context, '/home_page')
+                              : Navigator.pushNamed(
+                                  context, '/vendor_home_controller')
                           : Toast.ShowToast("OTP Invalid")
                       : await verifyNumberOTP()
-                          ? Navigator.pushNamed(context, '/home_page')
+                          ? UserType.isUserCustomer
+                              ? Navigator.pushNamed(context, '/home_page')
+                              : Navigator.pushNamed(
+                                  context, '/vendor_home_controller')
                           : Toast.ShowToast("OTP Invalid");
                 },
                 child: const Text("Verify")),

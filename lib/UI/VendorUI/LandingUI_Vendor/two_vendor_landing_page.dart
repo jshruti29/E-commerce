@@ -21,11 +21,13 @@ class Two_Vendor_LandingPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+
+
               Container(
-                width: 30,
+                width: 15,
                 height: 10,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.white60,
                   borderRadius: BorderRadius.circular(5.0),
                 ),
               ),
@@ -33,10 +35,10 @@ class Two_Vendor_LandingPage extends StatelessWidget {
                 width: 3,
               ),
               Container(
-                width: 15,
+                width: 30,
                 height: 10,
                 decoration: BoxDecoration(
-                  color: Colors.white60,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(5.0),
                 ),
               ),
